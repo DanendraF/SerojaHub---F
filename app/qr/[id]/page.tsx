@@ -58,7 +58,7 @@ export default function QRPage() {
   const detailUrl = `${origin}/tanaman/${plant.id}`;
 
   const handleDownload = () => {
-    const svg = printRef.current?.querySelector('svg');
+    const svg = printRef.current?.querySelector('.my-5 svg');
     if (!svg) return;
 
     const svgClone = svg.cloneNode(true) as SVGElement;
