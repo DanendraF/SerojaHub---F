@@ -18,18 +18,44 @@ export default function MasukPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (username === 'admin' && password === 'seroja123') {
-      login();
-      router.push('/beranda');
-    } else {
-      setError('Nama pengguna atau kata sandi salah.');
-      toast({
-        title: 'Gagal masuk',
-        description: 'Periksa kembali nama pengguna dan kata sandi Anda.',
-        variant: 'destructive',
+    setError('');
+
+    try {
+      const basicToken = 'Basic ' + btoa(`${username}:${password}`);
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
+      const response = await fetch(`${apiUrl}/auth/verify`, {
+        method: 'GET',
+        headers: {
+          'Authorization': basicToken,
+        },
       });
+
+      if (response.status === 401) {
+        setError('Nama pengguna atau kata sandi salah.');
+        toast({
+          title: 'Gagal masuk',
+          description: 'Nama pengguna atau kata sandi salah.',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      if (response.ok) {
+        login(basicToken);
+        toast({
+          title: 'Berhasil Masuk',
+          description: 'Selamat datang kembali di Panel Pengelola Kebun Seroja.',
+        });
+        router.push('/beranda');
+      } else {
+        setError('Terjadi kesalahan pada server backend.');
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Gagal menghubungi server backend. Pastikan server backend sudah aktif.');
     }
   };
 
