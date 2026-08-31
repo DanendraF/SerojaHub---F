@@ -71,16 +71,73 @@ export default function QRPage() {
 
     const canvas = document.createElement('canvas');
     canvas.width = 400;
-    canvas.height = 400;
+    canvas.height = 550;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     const img = new Image();
     img.crossOrigin = 'anonymous';
     img.onload = () => {
+      // 1. Background putih
       ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, 400, 400);
-      ctx.drawImage(img, 0, 0, 400, 400);
+      ctx.fillRect(0, 0, 400, 550);
+
+      // 2. Border hijau emerald
+      ctx.strokeStyle = '#059669';
+      ctx.lineWidth = 10;
+      ctx.strokeRect(5, 5, 390, 540);
+
+      // 3. Header Text
+      ctx.fillStyle = '#065f46';
+      ctx.font = 'bold 24px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('KEBUN SEROJA', 200, 55);
+
+      // 4. Subtitle
+      ctx.fillStyle = '#78716c';
+      ctx.font = '13px sans-serif';
+      ctx.fillText('Scan QR code untuk info tanaman', 200, 80);
+
+      // 5. Divider Atas
+      ctx.strokeStyle = '#e7e5e4';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(40, 95);
+      ctx.lineTo(360, 95);
+      ctx.stroke();
+
+      // 6. Draw QR Code
+      ctx.drawImage(img, 80, 115, 240, 240);
+
+      // 7. Divider Bawah
+      ctx.strokeStyle = '#e7e5e4';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(40, 380);
+      ctx.lineTo(360, 380);
+      ctx.stroke();
+
+      // 8. Nama Tanaman
+      ctx.fillStyle = '#1c1917';
+      ctx.font = 'bold 20px sans-serif';
+      ctx.fillText(plant.name.toUpperCase(), 200, 420);
+
+      // 9. Jenis Tanaman
+      ctx.fillStyle = '#059669';
+      ctx.font = 'bold 14px sans-serif';
+      ctx.fillText(plant.type, 200, 450);
+
+      // 10. Lokasi Bedeng
+      if (plant.lokasi_bedeng) {
+        ctx.fillStyle = '#78716c';
+        ctx.font = '13px sans-serif';
+        ctx.fillText('📍 ' + plant.lokasi_bedeng, 200, 480);
+      }
+
+      // 11. Footer URL
+      ctx.fillStyle = '#a8a29e';
+      ctx.font = '9px sans-serif';
+      ctx.fillText(detailUrl, 200, 520);
 
       URL.revokeObjectURL(svgUrl);
 
@@ -94,7 +151,7 @@ export default function QRPage() {
 
         toast({
           title: 'QR code diunduh',
-          description: 'File PNG telah disimpan ke perangkat Anda.',
+          description: 'Kartu QR siap cetak telah disimpan.',
         });
       }, 'image/png');
     };
