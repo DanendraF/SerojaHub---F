@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import {
   createContext,
@@ -24,7 +24,7 @@ type PlantContextState = {
 
 const PlantContext = createContext<PlantContextState | null>(null);
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = '/api';
 
 export function PlantProvider({ children }: { children: ReactNode }) {
   const [plants, setPlants] = useState<Plant[]>([]);

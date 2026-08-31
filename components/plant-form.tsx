@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -101,7 +101,7 @@ export function PlantForm({ mode, existingPlant }: PlantFormProps) {
   const uploadPhoto = async (file: File): Promise<string> => {
     const formData = new FormData();
     formData.append('file', file);
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = '/api';
     const response = await fetch(`${apiUrl}/upload/photo`, {
       method: 'POST',
       headers: { ...(token ? { Authorization: token } : {}) },

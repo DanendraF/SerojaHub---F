@@ -24,7 +24,7 @@ export default function MasukPage() {
 
     try {
       const basicToken = 'Basic ' + btoa(`${username}:${password}`);
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+      const apiUrl = '/api';
 
       const response = await fetch(`${apiUrl}/auth/verify`, {
         method: 'GET',
