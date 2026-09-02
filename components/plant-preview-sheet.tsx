@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useRouter } from 'next/navigation';
 import {
@@ -191,14 +191,15 @@ export function PlantPreviewSheet({ plant, onClose }: PlantPreviewSheetProps) {
               <Pencil className="mr-2 h-4 w-4" />
               Edit
             </Button>
-            <Button
-              variant="secondary"
-              className="h-10 rounded-xl text-sm"
-              onClick={() => router.push(`/qr/${plant.id}`)}
-            >
-              <QrCode className="mr-2 h-4 w-4" />
-              QR Code
-            </Button>
+            <Link href={`/qr/jenis/${plant.speciesId}`} className="w-full">
+              <Button
+                variant="secondary"
+                className="w-full h-10 rounded-xl text-sm"
+              >
+                <QrCode className="mr-2 h-4 w-4" />
+                QR Code
+              </Button>
+            </Link>
           </div>
           <div className="mt-2 grid grid-cols-2 gap-2">
             <Button
