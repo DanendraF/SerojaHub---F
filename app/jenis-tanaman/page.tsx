@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { AdminShell } from '@/components/admin-shell';
 import { useSpecies } from '@/lib/species-context';
@@ -11,16 +11,16 @@ import Link from 'next/link';
 
 export default function JenisTanamanPage() {
   const { species, isLoading, refreshSpecies } = useSpecies();
-  const { user, isLoading: authLoading } = useAuth();
+  const { isLoggedIn, token } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!authLoading && !user) {
+    if (!isLoggedIn) {
       router.push('/masuk');
     }
-  }, [user, authLoading, router]);
+  }, [isLoggedIn, router]);
 
-  if (authLoading || !user) return <div className="p-8 text-center text-green-700">Memuat...</div>;
+  if (!isLoggedIn) return <div className="p-8 text-center text-green-700">Memuat...</div>;
 
   const handleDelete = async (id: string, name: string) => {
     if (!confirm(`Yakin ingin menghapus jenis tanaman ${name}?`)) return;
@@ -29,7 +29,7 @@ export default function JenisTanamanPage() {
       const res = await fetch(`/api/species/${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Basic ${btoa(user.username + ':' + user.password)}`
+          'Authorization': `Basic ${token}`
         }
       });
       if (res.ok) {

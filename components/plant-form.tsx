@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -43,7 +43,7 @@ export function PlantForm({ mode, existingPlant }: PlantFormProps) {
   const router = useRouter();
   const { refreshPlants } = usePlants();
   const { species } = useSpecies();
-  const { user } = useAuth();
+  const { isLoggedIn, token } = useAuth();
   const { toast } = useToast();
   
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,7 +78,7 @@ export function PlantForm({ mode, existingPlant }: PlantFormProps) {
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file || !user) return;
+    if (!file || !isLoggedIn) return;
 
     setIsUploading(true);
     const fd = new FormData();
@@ -87,7 +87,7 @@ export function PlantForm({ mode, existingPlant }: PlantFormProps) {
     try {
       const res = await fetch('/api/upload/photo', {
         method: 'POST',
-        headers: { 'Authorization': `Basic ${btoa(user.username + ':' + user.password)}` },
+        headers: { 'Authorization': `Basic ${token}` },
         body: fd,
       });
       const data = await res.json();
@@ -106,7 +106,7 @@ export function PlantForm({ mode, existingPlant }: PlantFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
+    if (!isLoggedIn) return;
     setIsSubmitting(true);
 
     try {
@@ -119,7 +119,7 @@ export function PlantForm({ mode, existingPlant }: PlantFormProps) {
         method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Basic ${btoa(user.username + ':' + user.password)}`
+          'Authorization': `Basic ${token}`
         },
         body: JSON.stringify(payload),
       });

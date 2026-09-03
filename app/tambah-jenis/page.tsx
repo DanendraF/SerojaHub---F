@@ -12,7 +12,7 @@ import { ChevronLeft, Image as ImageIcon, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function TambahJenisPage() {
-  const { user, isLoading: authLoading } = useAuth();
+  const { isLoggedIn, token } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
   
@@ -22,10 +22,10 @@ export default function TambahJenisPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (!authLoading && !user) router.push('/masuk');
-  }, [user, authLoading, router]);
+    if (!isLoggedIn) router.push('/masuk');
+  }, [isLoggedIn, router]);
 
-  if (authLoading || !user) return null;
+  if (!isLoggedIn) return null;
 
   const handleUploadClick = () => fileInputRef.current?.click();
 
@@ -41,7 +41,7 @@ export default function TambahJenisPage() {
       const res = await fetch('/api/upload/photo', {
         method: 'POST',
         headers: {
-          'Authorization': `Basic ${btoa(user.username + ':' + user.password)}`
+          'Authorization': `Basic ${token}`
         },
         body: formData,
       });
@@ -78,7 +78,7 @@ export default function TambahJenisPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Basic ${btoa(user.username + ':' + user.password)}`
+          'Authorization': `Basic ${token}`
         },
         body: JSON.stringify(payload),
       });

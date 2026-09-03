@@ -1,6 +1,7 @@
-'use client';
+﻿'use client';
 
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
   CalendarDays,
   ExternalLink,
@@ -89,10 +90,10 @@ export function PlantPreviewSheet({ plant, onClose }: PlantPreviewSheetProps) {
         side="right"
         className="flex w-full flex-col gap-0 p-0 sm:max-w-md overflow-hidden"
       >
-        {/* ── FOTO HEADER ─────────────────────────── */}
+        {/* â”€â”€ FOTO HEADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="relative h-52 shrink-0 overflow-hidden">
           <img
-            src={plant.photo_url || 'https://via.placeholder.com/400x300?text=🌿'}
+            src={plant.photo_url || 'https://via.placeholder.com/400x300?text=ðŸŒ¿'}
             alt={plant.name}
             className="h-full w-full object-cover"
           />
@@ -113,18 +114,18 @@ export function PlantPreviewSheet({ plant, onClose }: PlantPreviewSheetProps) {
             </span>
             {nearing && (
               <span className="rounded-full bg-amber-400 px-2.5 py-1 text-xs font-bold text-white">
-                🌾 Siap Panen
+                ðŸŒ¾ Siap Panen
               </span>
             )}
             {overdue && (
               <span className="rounded-full bg-rose-500 px-2.5 py-1 text-xs font-bold text-white">
-                ⚠️ Lewat Panen
+                âš ï¸ Lewat Panen
               </span>
             )}
           </div>
         </div>
 
-        {/* ── CONTENT ─────────────────────────────── */}
+        {/* â”€â”€ CONTENT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="flex-1 overflow-y-auto">
           {/* Nama & jenis */}
           <div className="border-b border-border px-5 py-4">
@@ -133,7 +134,7 @@ export function PlantPreviewSheet({ plant, onClose }: PlantPreviewSheetProps) {
             </SheetHeader>
             <div className="mt-2 flex flex-wrap gap-2">
               <Badge className="rounded-lg bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
-                {plant.type === 'Buah' ? '🍎' : '🥬'} {plant.type}
+                {plant.type === 'Buah' ? 'ðŸŽ' : 'ðŸ¥¬'} {plant.type}
               </Badge>
               {plant.lokasi_bedeng && (
                 <span className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -180,7 +181,7 @@ export function PlantPreviewSheet({ plant, onClose }: PlantPreviewSheetProps) {
           </div>
         </div>
 
-        {/* ── ACTION FOOTER ───────────────────────── */}
+        {/* â”€â”€ ACTION FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="shrink-0 border-t border-border bg-card p-4">
           <div className="grid grid-cols-2 gap-2">
             <Button
