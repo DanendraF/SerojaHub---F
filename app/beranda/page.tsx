@@ -12,6 +12,7 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import { AdminShell } from '@/components/admin-shell';
+import { GardenCalendar } from '@/components/garden-calendar';
 import { usePlants } from '@/lib/plant-context';
 import { Button } from '@/components/ui/button';
 import { formatTanggal, hariMenujuPanen } from '@/lib/format';
@@ -87,6 +88,11 @@ export default function BerandaPage() {
             <p className="text-xs font-medium text-muted-foreground">{s.label}</p>
           </div>
         ))}
+      </div>
+
+      {/* ── KALENDER ─────────────────────────────────────── */}
+      <div className="mt-5">
+        <GardenCalendar plants={plants} />
       </div>
 
       {/* ── MAIN GRID ────────────────────────────────────── */}
