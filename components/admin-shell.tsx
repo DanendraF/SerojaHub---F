@@ -8,12 +8,8 @@ import {
   Globe,
   LayoutGrid,
   LogOut,
-  Plus,
   Sprout,
   Database,
-  LayoutDashboard,
-  Leaf,
-  Info,
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth-context';
 import { usePlants } from '@/lib/plant-context';
@@ -24,7 +20,6 @@ const navItems = [
   { href: '/beranda',       label: 'Beranda',        icon: LayoutGrid, desc: 'Ringkasan kebun' },
   { href: '/jenis-tanaman', label: 'Jenis Tanaman',  icon: Database, desc: 'Master data jenis' },
   { href: '/data-tanaman',  label: 'Data Tanaman',   icon: Sprout,     desc: 'Kelola tanaman' },
-  { href: '/tambah-tanaman',label: 'Tambah Tanaman', icon: Plus,       desc: 'Daftarkan baru' },
 ];
 
 export function AdminShell({ children }: { children: ReactNode }) {

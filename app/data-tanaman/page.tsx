@@ -62,11 +62,20 @@ export default function DataTanamanPage() {
   return (
     <AdminShell>
       {/* ── HEADER ──────────────────────────────────── */}
-      <div>
-        <h1 className="text-2xl font-bold">Data Tanaman</h1>
-        <p className="mt-0.5 text-sm text-muted-foreground">
-          {plants.length} tanaman terdaftar di Kebun Seroja
-        </p>
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-bold">Data Tanaman</h1>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            {plants.length} tanaman terdaftar di Kebun Seroja
+          </p>
+        </div>
+        <Button
+          className="h-10 shrink-0 rounded-full px-4"
+          onClick={() => router.push('/tambah-tanaman')}
+        >
+          <Plus className="mr-1.5 h-4 w-4" />
+          Tambah Tanaman
+        </Button>
       </div>
 
       {/* ── SEARCH & FILTER ─────────────────────────── */}
