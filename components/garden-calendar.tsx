@@ -41,24 +41,24 @@ export function GardenCalendar({ plants }: { plants: Plant[] }) {
     const tanamMap = new Map<string, Date>();
     const panenMap = new Map<string, Date>();
 
-    for (const plant of plants) {
+    plants.forEach((plant) => {
       const tanam = toDay(plant.planting_date);
       const panen = toDay(plant.estimated_harvest_date);
       tanamMap.set(tanam.toDateString(), tanam);
       panenMap.set(panen.toDateString(), panen);
-    }
+    });
 
     const both: Date[] = [];
     const tanamOnly: Date[] = [];
     const panenOnly: Date[] = [];
 
-    for (const [key, date] of tanamMap) {
+    tanamMap.forEach((date, key) => {
       if (panenMap.has(key)) both.push(date);
       else tanamOnly.push(date);
-    }
-    for (const [key, date] of panenMap) {
+    });
+    panenMap.forEach((date, key) => {
       if (!tanamMap.has(key)) panenOnly.push(date);
-    }
+    });
 
     return { tanamDays: tanamOnly, panenDays: panenOnly, bothDays: both };
   }, [plants]);
