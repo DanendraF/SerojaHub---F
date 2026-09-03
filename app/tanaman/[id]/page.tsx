@@ -108,7 +108,7 @@ export default function TanamanDetailPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
         <button
-          onClick={() => router.push('/tanaman')}
+          onClick={() => router.push(plant.speciesId ? `/tanaman?jenis=${plant.speciesId}` : '/tanaman')}
           className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-black/30 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition hover:bg-black/50"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
@@ -185,7 +185,7 @@ export default function TanamanDetailPage() {
         {/* Footer */}
         <div className="mt-8 flex items-center justify-between border-t border-stone-100 pt-6">
           <button
-            onClick={() => router.push('/tanaman')}
+            onClick={() => router.push(plant.speciesId ? `/tanaman?jenis=${plant.speciesId}` : '/tanaman')}
             className="flex items-center gap-1.5 text-sm font-semibold text-stone-500 transition hover:text-emerald-700"
           >
             <ArrowLeft className="h-4 w-4" />

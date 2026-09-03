@@ -90,10 +90,10 @@ export function PlantPreviewSheet({ plant, onClose }: PlantPreviewSheetProps) {
         side="right"
         className="flex w-full flex-col gap-0 p-0 sm:max-w-md overflow-hidden"
       >
-        {/* â”€â”€ FOTO HEADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* Foto header */}
         <div className="relative h-52 shrink-0 overflow-hidden">
           <img
-            src={plant.photo_url || 'https://via.placeholder.com/400x300?text=ðŸŒ¿'}
+            src={plant.photo_url || 'https://placehold.co/400x300/e7f5e9/4ade80?text=Tanaman'}
             alt={plant.name}
             className="h-full w-full object-cover"
           />
@@ -114,18 +114,18 @@ export function PlantPreviewSheet({ plant, onClose }: PlantPreviewSheetProps) {
             </span>
             {nearing && (
               <span className="rounded-full bg-amber-400 px-2.5 py-1 text-xs font-bold text-white">
-                ðŸŒ¾ Siap Panen
+                Siap Panen
               </span>
             )}
             {overdue && (
               <span className="rounded-full bg-rose-500 px-2.5 py-1 text-xs font-bold text-white">
-                âš ï¸ Lewat Panen
+                Lewat Panen
               </span>
             )}
           </div>
         </div>
 
-        {/* â”€â”€ CONTENT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* Konten */}
         <div className="flex-1 overflow-y-auto">
           {/* Nama & jenis */}
           <div className="border-b border-border px-5 py-4">
@@ -134,7 +134,7 @@ export function PlantPreviewSheet({ plant, onClose }: PlantPreviewSheetProps) {
             </SheetHeader>
             <div className="mt-2 flex flex-wrap gap-2">
               <Badge className="rounded-lg bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
-                {plant.type === 'Buah' ? 'ðŸŽ' : 'ðŸ¥¬'} {plant.type}
+                {plant.type}
               </Badge>
               {plant.lokasi_bedeng && (
                 <span className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -181,7 +181,7 @@ export function PlantPreviewSheet({ plant, onClose }: PlantPreviewSheetProps) {
           </div>
         </div>
 
-        {/* â”€â”€ ACTION FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* Aksi */}
         <div className="shrink-0 border-t border-border bg-card p-4">
           <div className="grid grid-cols-2 gap-2">
             <Button

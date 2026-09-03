@@ -73,7 +73,7 @@ export default function QRJenisPage({ params }: { params: { id: string } }) {
 
   if (!species) return <div className="p-8 text-center text-green-700">Memuat...</div>;
 
-  const qrValue = `${origin}/jenis/${species.id}`;
+  const qrValue = `${origin}/tanaman?jenis=${species.id}`;
 
   return (
     <div className="min-h-screen bg-gray-50/50 p-6">
