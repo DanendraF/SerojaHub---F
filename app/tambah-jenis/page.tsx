@@ -10,9 +10,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { ChevronLeft, Image as ImageIcon, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { useSpecies } from '@/lib/species-context';
+import { getUploadedPhotoUrl } from '@/lib/utils';
 
 export default function TambahJenisPage() {
   const { isLoggedIn, token } = useAuth();
+  const { refreshSpecies } = useSpecies();
   const router = useRouter();
   const { toast } = useToast();
   
@@ -46,11 +49,12 @@ export default function TambahJenisPage() {
         body: formData,
       });
       const data = await res.json();
-      if (data.success) {
-        setPhotoUrl(data.url);
+      const uploadedUrl = getUploadedPhotoUrl(data);
+      if (data.success && uploadedUrl) {
+        setPhotoUrl(uploadedUrl);
         toast({ title: 'Foto berhasil diunggah' });
       } else {
-        throw new Error(data.message);
+        throw new Error(data.message || 'URL foto tidak ditemukan');
       }
     } catch (err: any) {
       toast({ title: 'Gagal unggah foto', description: err.message, variant: 'destructive' });
@@ -85,6 +89,7 @@ export default function TambahJenisPage() {
       const data = await res.json();
       if (data.success) {
         toast({ title: 'Berhasil tambah jenis tanaman' });
+        await refreshSpecies();
         router.push('/jenis-tanaman');
       } else {
         throw new Error(data.message);

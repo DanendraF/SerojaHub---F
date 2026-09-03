@@ -21,6 +21,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import type { Plant } from '@/lib/types';
+import { getUploadedPhotoUrl } from '@/lib/utils';
 
 type PlantFormProps = {
   mode: 'add' | 'edit';
@@ -91,11 +92,12 @@ export function PlantForm({ mode, existingPlant }: PlantFormProps) {
         body: fd,
       });
       const data = await res.json();
-      if (data.success) {
-        setPhotoUrl(data.url);
+      const uploadedUrl = getUploadedPhotoUrl(data);
+      if (data.success && uploadedUrl) {
+        setPhotoUrl(uploadedUrl);
         toast({ title: 'Foto diunggah' });
       } else {
-        throw new Error(data.message);
+        throw new Error(data.message || 'URL foto tidak ditemukan');
       }
     } catch (err: any) {
       toast({ title: 'Gagal', description: err.message, variant: 'destructive' });

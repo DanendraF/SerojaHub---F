@@ -1,18 +1,21 @@
 'use client';
 
 import { AdminShell } from '@/components/admin-shell';
+import { SpeciesFormDialog } from '@/components/species-form-dialog';
 import { useSpecies } from '@/lib/species-context';
 import { useAuth } from '@/lib/auth-context';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Plus, Edit, Trash2, QrCode } from 'lucide-react';
 import Link from 'next/link';
+import type { PlantSpecies } from '@/lib/types';
 
 export default function JenisTanamanPage() {
   const { species, isLoading, refreshSpecies } = useSpecies();
   const { isLoggedIn, token } = useAuth();
   const router = useRouter();
+  const [editing, setEditing] = useState<PlantSpecies | null>(null);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -24,13 +27,13 @@ export default function JenisTanamanPage() {
 
   const handleDelete = async (id: string, name: string) => {
     if (!confirm(`Yakin ingin menghapus jenis tanaman ${name}?`)) return;
-    
+
     try {
       const res = await fetch(`/api/species/${id}`, {
         method: 'DELETE',
         headers: {
           ...(token ? { Authorization: token } : {}),
-        }
+        },
       });
       if (res.ok) {
         refreshSpecies();
@@ -38,8 +41,9 @@ export default function JenisTanamanPage() {
         const err = await res.json();
         alert('Gagal: ' + err.message);
       }
-    } catch (e: any) {
-      alert('Error: ' + e.message);
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Terjadi kesalahan';
+      alert('Error: ' + message);
     }
   };
 
@@ -57,7 +61,7 @@ export default function JenisTanamanPage() {
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-green-100 overflow-hidden">
         <div className="p-6">
           <p className="text-gray-500 mb-6">
-            Jenis tanaman digunakan sebagai kategori utama. Satu jenis tanaman (misal: "Terong") memiliki 1 QR Code, yang akan menampilkan semua bedeng tempat terong ditanam.
+            Jenis tanaman digunakan sebagai kategori utama. Satu jenis tanaman (misal: &quot;Terong&quot;) memiliki 1 QR Code, yang akan menampilkan semua bedeng tempat terong ditanam.
           </p>
 
           {isLoading ? (
@@ -68,7 +72,7 @@ export default function JenisTanamanPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {species.map(s => (
+              {species.map((s) => (
                 <div key={s.id} className="border border-green-100 rounded-xl p-4 bg-white flex flex-col hover:border-green-300 transition-colors">
                   <div className="flex items-center gap-3 mb-3">
                     {s.photo_url ? (
@@ -90,7 +94,7 @@ export default function JenisTanamanPage() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="mt-auto pt-3 border-t border-gray-100 flex justify-between">
                     <Link href={`/qr/jenis/${s.id}`}>
                       <Button variant="outline" size="sm" className="h-8 rounded-full border-green-200 text-green-700 hover:bg-green-50">
@@ -98,14 +102,17 @@ export default function JenisTanamanPage() {
                       </Button>
                     </Link>
                     <div className="flex gap-1">
-                      <Link href={`/edit-jenis/${s.id}`}>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full text-blue-600 hover:bg-blue-50 hover:text-blue-700">
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                      </Link>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setEditing(s)}
+                        className="h-8 w-8 p-0 rounded-full text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         onClick={() => handleDelete(s.id, s.name)}
                         className="h-8 w-8 p-0 rounded-full text-rose-500 hover:bg-rose-50 hover:text-rose-600"
                       >
@@ -119,6 +126,15 @@ export default function JenisTanamanPage() {
           )}
         </div>
       </div>
+
+      <SpeciesFormDialog
+        open={!!editing}
+        species={editing}
+        onOpenChange={(open) => {
+          if (!open) setEditing(null);
+        }}
+        onSaved={refreshSpecies}
+      />
     </AdminShell>
   );
 }
