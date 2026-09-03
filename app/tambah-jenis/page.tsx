@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { AdminShell } from '@/components/admin-shell';
 import { useAuth } from '@/lib/auth-context';
@@ -7,7 +7,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { ChevronLeft, Image as ImageIcon, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 

@@ -1,23 +1,39 @@
-﻿import { prisma } from '@/../../backend/src/lib/prisma'; // Langsung fetch dari DB untuk public page SSR
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { SiteHeader } from '@/components/site-header';
 import { notFound } from 'next/navigation';
 import { MapPin, Calendar, Clock, Sprout } from 'lucide-react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 
+// Fungsi bantuan untuk mengambil data spesies dari backend
+async function getSpecies(id: string) {
+  // Dalam Server Component (terutama di Vercel), panggil API_URL langsung
+  const baseUrl = process.env.API_URL || 'http://localhost:5000/api';
+  
+  try {
+    const res = await fetch(`${baseUrl}/species/${id}`, {
+      // Revalidate setiap 60 detik (ISR) agar data cukup fresh tapi tak bebani backend
+      next: { revalidate: 60 }
+    });
+    
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.success ? json.data : null;
+  } catch (e) {
+    console.error('Failed to fetch species:', e);
+    return null;
+  }
+}
+
 export default async function PublicJenisTanamanPage({ params }: { params: { id: string } }) {
-  const species = await prisma.plantSpecies.findUnique({
-    where: { id: params.id },
-    include: {
-      plants: {
-        where: { status: { in: ['TUMBUH', 'SIAP_PANEN'] } },
-        orderBy: { planting_date: 'desc' }
-      }
-    }
-  });
+  const species = await getSpecies(params.id);
 
   if (!species) notFound();
+
+  // Filter hanya bedeng yang aktif (Tumbuh atau Siap Panen)
+  const activePlants = (species.plants || []).filter(
+    (p: any) => p.status === 'TUMBUH' || p.status === 'SIAP_PANEN'
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -87,11 +103,11 @@ export default async function PublicJenisTanamanPage({ params }: { params: { id:
                 <MapPin className="w-5 h-5 text-green-600" /> Titik Tanam Aktif
               </h3>
               
-              {species.plants.length === 0 ? (
+              {activePlants.length === 0 ? (
                 <p className="text-sm text-green-700/70">Saat ini tidak ada bedeng aktif yang menanam {species.name}.</p>
               ) : (
                 <div className="space-y-4">
-                  {species.plants.map(p => (
+                  {activePlants.map((p: any) => (
                     <div key={p.id} className="bg-white rounded-xl p-4 shadow-sm border border-green-50">
                       <div className="font-semibold text-gray-800 mb-1">{p.lokasi_bedeng || 'Bedeng Umum'}</div>
                       <div className="text-xs text-gray-500 flex flex-col gap-1.5">
