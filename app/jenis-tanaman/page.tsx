@@ -29,7 +29,7 @@ export default function JenisTanamanPage() {
       const res = await fetch(`/api/species/${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': token
+          ...(token ? { Authorization: token } : {}),
         }
       });
       if (res.ok) {

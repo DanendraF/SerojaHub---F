@@ -87,7 +87,7 @@ export function PlantForm({ mode, existingPlant }: PlantFormProps) {
     try {
       const res = await fetch('/api/upload/photo', {
         method: 'POST',
-        headers: { 'Authorization': token },
+        headers: { ...(token ? { Authorization: token } : {}) },
         body: fd,
       });
       const data = await res.json();
@@ -119,7 +119,7 @@ export function PlantForm({ mode, existingPlant }: PlantFormProps) {
         method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
+          ...(token ? { Authorization: token } : {}),
         },
         body: JSON.stringify(payload),
       });

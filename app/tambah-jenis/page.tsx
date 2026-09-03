@@ -41,7 +41,7 @@ export default function TambahJenisPage() {
       const res = await fetch('/api/upload/photo', {
         method: 'POST',
         headers: {
-          'Authorization': token
+          ...(token ? { Authorization: token } : {}),
         },
         body: formData,
       });
@@ -78,7 +78,7 @@ export default function TambahJenisPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
+          ...(token ? { Authorization: token } : {}),
         },
         body: JSON.stringify(payload),
       });
