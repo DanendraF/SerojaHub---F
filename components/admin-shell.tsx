@@ -42,7 +42,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
     <div className="admin-bg min-h-screen">
 
       {/* ── SIDEBAR (desktop) ────────────────────────── */}
-      <aside className="fixed inset-y-0 left-0 z-50 hidden w-60 flex-col bg-white/80 backdrop-blur-xl border-r border-stone-100 shadow-sm lg:flex">
+      <aside className="print:hidden fixed inset-y-0 left-0 z-50 hidden w-60 flex-col bg-white/80 backdrop-blur-xl border-r border-stone-100 shadow-sm lg:flex">
 
         {/* Logo */}
         <div className="flex items-center gap-3 px-5 py-5">
@@ -143,7 +143,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
       </aside>
 
       {/* ── MOBILE TOP NAV ───────────────────────────── */}
-      <div className="sticky top-0 z-40 flex flex-col bg-white/90 shadow-sm backdrop-blur-xl lg:hidden">
+      <div className="print:hidden sticky top-0 z-40 flex flex-col bg-white/90 shadow-sm backdrop-blur-xl lg:hidden">
         <div className="flex items-center justify-between px-4 py-3">
           <Link href="/" className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-600">
@@ -185,8 +185,8 @@ export function AdminShell({ children }: { children: ReactNode }) {
       </div>
 
       {/* ── MAIN CONTENT ─────────────────────────────── */}
-      <main className="lg:pl-60">
-        <div className="mx-auto max-w-5xl px-4 py-5 lg:px-6 lg:py-6">
+      <main className="lg:pl-60 print:pl-0">
+        <div className="mx-auto max-w-5xl px-4 py-5 lg:px-6 lg:py-6 print:max-w-none print:p-0">
           {children}
         </div>
       </main>
