@@ -1,4 +1,4 @@
-﻿# Seroja Knowledge Hub — Frontend
+﻿# Seroja Knowledge Hub - Frontend
 
 Aplikasi frontend untuk Kebun Komunitas Seroja. Dibangun menggunakan Next.js (App Router), Tailwind CSS, dan shadcn/ui.
 

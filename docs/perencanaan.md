@@ -1,11 +1,11 @@
-﻿# Perencanaan — Seroja Knowledge Hub
+﻿# Perencanaan - Seroja Knowledge Hub
 
 > **Dokumen ini adalah roadmap pengerjaan yang akan diupdate setiap sprint/sesi.**
-> **Status:** 🟡 In Progress — Last updated: 2026-08-31
+> **Status:** 🟡 In Progress - Last updated: 2026-08-31
 
 ---
 
-## Fase 0 — Fondasi UI (✅ Selesai)
+## Fase 0 - Fondasi UI (✅ Selesai)
 
 | # | Tugas | Status |
 |---|---|---|
@@ -21,7 +21,7 @@
 
 ---
 
-## Fase 1 — Setup Backend & Database (🔴 Belum Dimulai)
+## Fase 1 - Setup Backend & Database (🔴 Belum Dimulai)
 
 **Target:** Data tanaman tersimpan permanen di Supabase, tidak hilang saat refresh.
 
@@ -31,7 +31,7 @@
 | 1.2 | Buat akun & project Supabase, ambil connection string | .env.local | 🔴 |
 | 1.3 | Konfigurasi lib/prisma.ts (singleton client) | lib/prisma.ts | 🔴 |
 | 1.4 | Konfigurasi lib/supabase.ts (storage client) | lib/supabase.ts | 🔴 |
-| 1.5 | Jalankan prisma migrate dev → buat tabel di Supabase | — | 🔴 |
+| 1.5 | Jalankan prisma migrate dev → buat tabel di Supabase | - | 🔴 |
 | 1.6 | Buat seed data tanaman awal (prisma/seed.ts) | prisma/seed.ts | 🔴 |
 | 1.7 | Buat API Route: GET /api/plants | pp/api/plants/route.ts | 🔴 |
 | 1.8 | Buat API Route: POST /api/plants | pp/api/plants/route.ts | 🔴 |
@@ -42,7 +42,7 @@
 
 ---
 
-## Fase 2 — Perkaya Data & Field Tanaman (🔴 Belum Dimulai)
+## Fase 2 - Perkaya Data & Field Tanaman (🔴 Belum Dimulai)
 
 | # | Tugas | File | Status |
 |---|---|---|---|
@@ -54,11 +54,11 @@
 
 ---
 
-## Fase 3 — Halaman Publik yang Lebih Kaya (🔴 Belum Dimulai)
+## Fase 3 - Halaman Publik yang Lebih Kaya (🔴 Belum Dimulai)
 
 | # | Tugas | File | Status |
 |---|---|---|---|
-| 3.1 | Redesign halaman detail tanaman publik (/tanaman/[id]) — lebih hangat, info lengkap | pp/tanaman/[id]/page.tsx | 🔴 |
+| 3.1 | Redesign halaman detail tanaman publik (/tanaman/[id]) - lebih hangat, info lengkap | pp/tanaman/[id]/page.tsx | 🔴 |
 | 3.2 | Tambah filter jenis + search di /tanaman | pp/tanaman/page.tsx | 🔴 |
 | 3.3 | Buat halaman Profil Kebun (/kebun) | pp/kebun/page.tsx | 🔴 |
 | 3.4 | Buat API Route profil kebun (/api/kebun) | pp/api/kebun/route.ts | 🔴 |
@@ -66,7 +66,7 @@
 
 ---
 
-## Fase 4 — Perbaikan QR Code & Label Cetak (🔴 Belum Dimulai)
+## Fase 4 - Perbaikan QR Code & Label Cetak (🔴 Belum Dimulai)
 
 | # | Tugas | File | Status |
 |---|---|---|---|
@@ -76,7 +76,7 @@
 
 ---
 
-## Fase 5 — Upload Foto & Storage (🔴 Belum Dimulai)
+## Fase 5 - Upload Foto & Storage (🔴 Belum Dimulai)
 
 | # | Tugas | File | Status |
 |---|---|---|---|
@@ -86,7 +86,7 @@
 
 ---
 
-## Fase 6 — Polish & Deploy (🔴 Belum Dimulai)
+## Fase 6 - Polish & Deploy (🔴 Belum Dimulai)
 
 | # | Tugas | Status |
 |---|---|---|

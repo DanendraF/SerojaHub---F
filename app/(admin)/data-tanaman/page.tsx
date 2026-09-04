@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useRouter } from 'next/navigation';
 import {
@@ -123,7 +123,7 @@ export default function DataTanamanPage() {
               key={plant.id}
               className="group flex flex-col gap-4 overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-sm transition-all hover:border-primary/30 hover:shadow-md sm:flex-row sm:items-center"
             >
-              {/* Foto — klik buka preview */}
+              {/* Foto - klik buka preview */}
               <button
                 onClick={() => setSelectedPlant(plant)}
                 className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl"
@@ -137,7 +137,7 @@ export default function DataTanamanPage() {
                 {overdue && <span className="absolute bottom-1 right-1 h-2.5 w-2.5 rounded-full border-2 border-white bg-rose-500 shadow" />}
               </button>
 
-              {/* Info — klik buka preview */}
+              {/* Info - klik buka preview */}
               <button
                 onClick={() => setSelectedPlant(plant)}
                 className="min-w-0 flex-1 text-left"

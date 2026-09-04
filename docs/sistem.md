@@ -1,7 +1,7 @@
-﻿# Sistem — Seroja Knowledge Hub
+﻿# Sistem - Seroja Knowledge Hub
 
 > **Dokumen ini mendeskripsikan semua modul, halaman, dan fungsionalitas sistem.**
-> **Status:** 🟡 In Progress — Last updated: 2026-08-31
+> **Status:** 🟡 In Progress - Last updated: 2026-08-31
 
 ---
 

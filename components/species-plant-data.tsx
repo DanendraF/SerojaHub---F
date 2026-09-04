@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { CalendarDays, Leaf, MapPin, Sprout } from 'lucide-react';
 import { SmartImage } from '@/components/smart-image';
 import { formatTanggal, hariMenujuPanen } from '@/lib/format';
@@ -55,7 +55,7 @@ export function SpeciesPlantData({
                 {species.name}
               </h1>
               <p className="mt-1 text-sm text-stone-500">
-                Data tanaman {species.name} di Kebun Seroja — {plants.length} titik tanam.
+                Data tanaman {species.name} di Kebun Seroja - {plants.length} titik tanam.
               </p>
             </div>
           </div>

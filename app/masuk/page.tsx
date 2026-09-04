@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -61,7 +61,7 @@ export default function MasukPage() {
 
   return (
     <div className="flex min-h-screen">
-      {/* Left panel — brand */}
+      {/* Left panel - brand */}
       <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-primary p-12 lg:flex">
         <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-primary-foreground/5" />
         <div className="absolute -bottom-32 -left-16 h-80 w-80 rounded-full bg-primary-foreground/5" />
@@ -100,7 +100,7 @@ export default function MasukPage() {
         </div>
       </div>
 
-      {/* Right panel — form */}
+      {/* Right panel - form */}
       <div className="flex w-full items-center justify-center bg-secondary/30 px-4 lg:w-1/2">
         <div className="w-full max-w-md">
           {/* Mobile logo */}

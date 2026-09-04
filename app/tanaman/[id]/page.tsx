@@ -1,199 +1,201 @@
-﻿import Link from 'next/link';
-import dynamic from 'next/dynamic';
-import {
-  ArrowLeft,
-  CalendarDays,
-  Leaf,
-  MapPin,
-  Sprout,
-} from 'lucide-react';
-import { SiteHeader } from '@/components/site-header';
-import { SmartImage } from '@/components/smart-image';
-import { formatTanggal, hariMenujuPanen } from '@/lib/format';
-import { PUBLIC_REVALIDATE_SECONDS, fetchPlantById } from '@/lib/public-data';
+﻿'use client';
 
-export const revalidate = PUBLIC_REVALIDATE_SECONDS;
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { ArrowRight, Eye, EyeOff, Leaf, Lock, User } from 'lucide-react';
+import { useAuth } from '@/lib/auth-context';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
 
-const PlantQrBlock = dynamic(
-  () => import('@/components/plant-qr-block').then((m) => m.PlantQrBlock),
-  { ssr: false },
-);
+export default function MasukPage() {
+  const { login } = useAuth();
+  const router = useRouter();
+  const { toast } = useToast();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
 
-function InfoSection({
-  emoji,
-  title,
-  content,
-  accent,
-}: {
-  emoji: string;
-  title: string;
-  content?: string | null;
-  accent: string;
-}) {
-  if (!content) return null;
-  return (
-    <div className={`rounded-2xl border p-5 ${accent}`}>
-      <div className="mb-3 flex items-center gap-2.5">
-        <span className="text-xl">{emoji}</span>
-        <h3 className="font-bold text-stone-800">{title}</h3>
-      </div>
-      <p className="whitespace-pre-wrap text-sm leading-relaxed text-stone-600">{content}</p>
-    </div>
-  );
-}
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
 
-export default async function TanamanDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const plant = await fetchPlantById(params.id);
-  const backHref = plant?.speciesId ? `/tanaman?jenis=${plant.speciesId}` : '/tanaman';
+    try {
+      const basicToken = 'Basic ' + btoa(`${username}:${password}`);
+      const apiUrl = '/api';
 
-  if (!plant) {
-    return (
-      <div className="min-h-screen bg-[#f7f9f5]">
-        <SiteHeader />
-        <div className="flex flex-col items-center justify-center py-32 text-center">
-          <span className="text-5xl">🌿</span>
-          <h1 className="mt-4 text-xl font-bold text-stone-800">Tanaman tidak ditemukan</h1>
-          <p className="mt-2 text-sm text-stone-500">Mungkin sudah dipindahkan atau dihapus.</p>
-          <Link
-            href="/tanaman"
-            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Kembali ke Daftar
-          </Link>
-        </div>
-      </div>
-    );
-  }
+      const response = await fetch(`${apiUrl}/auth/verify`, {
+        method: 'GET',
+        headers: {
+          'Authorization': basicToken,
+        },
+      });
 
-  const days = hariMenujuPanen(plant.estimated_harvest_date);
-  const nearing = days >= 0 && days <= 7;
-  const overdue = days < 0;
-  const typeEmoji = plant.type === 'Buah' ? '🍎' : plant.type === 'Sayur' ? '🥬' : '🌿';
+      if (response.status === 401) {
+        setError('Nama pengguna atau kata sandi salah.');
+        toast({
+          title: 'Gagal masuk',
+          description: 'Nama pengguna atau kata sandi salah.',
+          variant: 'destructive',
+        });
+        return;
+      }
 
-  const harvestBadge = overdue
-    ? { label: `${Math.abs(days)} hari lalu`, cls: 'bg-rose-100 text-rose-700 border-rose-200' }
-    : nearing
-      ? { label: 'Siap Panen 🌾', cls: 'bg-amber-100 text-amber-700 border-amber-200' }
-      : { label: `${days} hari lagi`, cls: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
+      if (response.ok) {
+        login(basicToken);
+        toast({
+          title: 'Berhasil Masuk',
+          description: 'Selamat datang kembali di Panel Pengelola Kebun Seroja.',
+        });
+        router.push('/beranda');
+      } else {
+        setError('Terjadi kesalahan pada server backend.');
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Gagal menghubungi server backend. Pastikan server backend sudah aktif.');
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-[#f7f9f5]">
-      <SiteHeader />
+    <div className="flex min-h-screen">
+      {/* Left panel - brand */}
+      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-primary p-12 lg:flex">
+        <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-primary-foreground/5" />
+        <div className="absolute -bottom-32 -left-16 h-80 w-80 rounded-full bg-primary-foreground/5" />
 
-      <div className="relative mt-16 h-64 w-full overflow-hidden sm:h-80 md:h-96">
-        <SmartImage
-          src={plant.photo_url || 'https://placehold.co/1200x500/e7f5e9/4ade80?text=Plant'}
-          alt={plant.name}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-        <Link
-          href={backHref}
-          className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-black/30 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition hover:bg-black/50"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Kembali
-        </Link>
-
-        <div className="absolute bottom-0 left-0 right-0 px-5 pb-5">
-          <div className="mb-2 flex flex-wrap gap-2">
-            <span className="rounded-full border border-white/30 bg-white/20 px-2.5 py-0.5 text-xs font-semibold text-white backdrop-blur-sm">
-              {typeEmoji} {plant.type}
+        <div className="relative">
+          <div className="flex items-center gap-3">
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-foreground/15 text-primary-foreground">
+              <Leaf className="h-6 w-6" />
             </span>
-            <span className={`rounded-full border px-2.5 py-0.5 text-xs font-semibold ${harvestBadge.cls}`}>
-              {harvestBadge.label}
+            <span className="text-xl font-bold text-primary-foreground">
+              Kebun Seroja
             </span>
-            {plant.lokasi_bedeng && (
-              <span className="flex items-center gap-1 rounded-full border border-white/30 bg-white/20 px-2.5 py-0.5 text-xs text-white backdrop-blur-sm">
-                <MapPin className="h-3 w-3" />
-                {plant.lokasi_bedeng}
-              </span>
-            )}
           </div>
-          <h1 className="text-2xl font-extrabold text-white drop-shadow sm:text-3xl">{plant.name}</h1>
+        </div>
+
+        <div className="relative">
+          <h1 className="text-4xl font-bold leading-tight text-primary-foreground">
+            Panel Pengelola
+          </h1>
+          <p className="mt-3 max-w-sm text-lg text-primary-foreground/80">
+            Kelola tanaman, cetak QR code, dan pantau perkiraan panen Kebun
+            Seroja dari satu tempat.
+          </p>
+        </div>
+
+        <div className="relative flex items-center gap-6">
+          <div>
+            <p className="text-3xl font-bold text-primary-foreground">5+</p>
+            <p className="text-sm text-primary-foreground/70">Jenis Tanaman</p>
+          </div>
+          <div className="h-12 w-px bg-primary-foreground/20" />
+          <div>
+            <p className="text-3xl font-bold text-primary-foreground">QR</p>
+            <p className="text-sm text-primary-foreground/70">Code per Tanaman</p>
+          </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
-        <div className="grid grid-cols-2 gap-3">
-          <div className="flex items-center gap-3 rounded-2xl border border-stone-100 bg-white p-4 shadow-sm">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-              <Sprout className="h-4 w-4" />
+      {/* Right panel - form */}
+      <div className="flex w-full items-center justify-center bg-secondary/30 px-4 lg:w-1/2">
+        <div className="w-full max-w-md">
+          {/* Mobile logo */}
+          <div className="mb-8 text-center lg:hidden">
+            <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
+              <Leaf className="h-8 w-8" />
             </span>
-            <div className="min-w-0">
-              <p className="text-xs font-medium text-stone-400">Ditanam</p>
-              <p className="text-sm font-bold leading-snug text-stone-800">{formatTanggal(plant.planting_date)}</p>
+            <h1 className="mt-4 text-2xl font-bold text-primary">
+              Kebun Seroja
+            </h1>
+          </div>
+
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-primary">Masuk</h2>
+            <p className="mt-1 text-base text-muted-foreground">
+              Masuk sebagai pengelola kebun
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <Label htmlFor="username" className="text-lg">
+                Nama Pengguna
+              </Label>
+              <div className="relative">
+                <User className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="admin"
+                  className="h-14 pl-12 text-lg"
+                  autoComplete="username"
+                />
+              </div>
             </div>
-          </div>
-          <div
-            className={`flex items-center gap-3 rounded-2xl border p-4 shadow-sm ${
-              nearing
-                ? 'border-amber-200 bg-amber-50'
-                : overdue
-                  ? 'border-rose-200 bg-rose-50'
-                  : 'border-stone-100 bg-white'
-            }`}
-          >
-            <span
-              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
-                nearing
-                  ? 'bg-amber-100 text-amber-600'
-                  : overdue
-                    ? 'bg-rose-100 text-rose-600'
-                    : 'bg-emerald-50 text-emerald-600'
-              }`}
-            >
-              <CalendarDays className="h-4 w-4" />
-            </span>
-            <div className="min-w-0">
-              <p className="text-xs font-medium text-stone-400">Estimasi Panen</p>
-              <p className="text-sm font-bold leading-snug text-stone-800">
-                {formatTanggal(plant.estimated_harvest_date)}
+
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-lg">
+                Kata Sandi
+              </Label>
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="h-14 pl-12 pr-12 text-lg"
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-primary"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {error && (
+              <p className="rounded-xl bg-destructive/10 px-4 py-3 text-base font-semibold text-destructive">
+                {error}
               </p>
-            </div>
+            )}
+
+            <Button type="submit" size="lg" className="h-14 w-full text-lg">
+              Masuk
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </form>
+
+          <div className="mt-6 rounded-xl border border-border bg-card p-4 text-center">
+            <p className="text-sm text-muted-foreground">
+              Demo: <span className="font-semibold">admin</span> /{' '}
+              <span className="font-semibold">seroja123</span>
+            </p>
           </div>
-        </div>
 
-        <div className="mt-4 space-y-3">
-          <InfoSection emoji="📋" title="Deskripsi" content={plant.description} accent="border-stone-100 bg-white" />
-          <InfoSection
-            emoji="💚"
-            title="Manfaat untuk Kesehatan"
-            content={plant.manfaat}
-            accent="border-emerald-100 bg-emerald-50/50"
-          />
-          <InfoSection emoji="🌱" title="Cara Tanam" content={plant.cara_tanam} accent="border-blue-100 bg-blue-50/50" />
-          <InfoSection
-            emoji="📝"
-            title="Catatan Pengelola"
-            content={plant.catatan_pengelola}
-            accent="border-amber-100 bg-amber-50/50"
-          />
-        </div>
-
-        <PlantQrBlock plantId={plant.id} />
-
-        <div className="mt-8 flex items-center justify-between border-t border-stone-100 pt-6">
-          <Link
-            href={backHref}
-            className="flex items-center gap-1.5 text-sm font-semibold text-stone-500 transition hover:text-emerald-700"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Semua Tanaman
-          </Link>
-          <span className="flex items-center gap-1.5 text-xs text-stone-400">
-            <Leaf className="h-3.5 w-3.5 text-emerald-500" />
-            Kebun Komunitas Seroja
-          </span>
+          <p className="mt-6 text-center text-base text-muted-foreground">
+            Pengunjung?{' '}
+            <a
+              href="/tanaman"
+              className="font-semibold text-primary underline"
+            >
+              Lihat daftar tanaman
+            </a>
+          </p>
         </div>
       </div>
     </div>

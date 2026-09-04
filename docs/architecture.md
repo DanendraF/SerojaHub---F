@@ -1,6 +1,6 @@
-﻿# Architecture — Seroja Knowledge Hub
+﻿# Architecture - Seroja Knowledge Hub
 
-> **Status:** 🟡 In Progress — Last updated: 2026-08-31
+> **Status:** 🟡 In Progress - Last updated: 2026-08-31
 
 ---
 
@@ -10,7 +10,7 @@
 |---|---|---|
 | **Frontend** | Next.js 14 (App Router) | SSR + Static, satu repo full-stack |
 | **Styling** | Tailwind CSS + shadcn/ui | Rapid UI, accessible components |
-| **API Layer** | Next.js Route Handlers (`app/api/`) | Tidak perlu Express terpisah — lebih sederhana & terintegrasi |
+| **API Layer** | Next.js Route Handlers (`app/api/`) | Tidak perlu Express terpisah - lebih sederhana & terintegrasi |
 | **ORM** | Prisma | Type-safe DB access, auto-migration, schema-first |
 | **Database** | Supabase (PostgreSQL) | Cloud PostgreSQL gratis, realtime built-in |
 | **File Storage** | Supabase Storage | Foto tanaman upload ke bucket |
@@ -163,7 +163,7 @@ SUPABASE_SERVICE_ROLE_KEY="[service-role-key]"
 
 ---
 
-## Data Flow — CRUD Tanaman
+## Data Flow - CRUD Tanaman
 
 ```
 Admin isi form → POST /api/plants
@@ -172,7 +172,7 @@ Admin isi form → POST /api/plants
   → Response JSON → redirect /qr/[id]
 ```
 
-## Data Flow — Scan QR Publik
+## Data Flow - Scan QR Publik
 
 ```
 Warga scan QR → GET /tanaman/[id]

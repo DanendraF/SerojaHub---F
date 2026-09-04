@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { ArrowRight, Leaf, MapPin, QrCode, Sprout } from 'lucide-react';
 import { SiteHeader } from '@/components/site-header';
 import { HomeGallery } from '@/components/home-gallery';
@@ -171,7 +171,7 @@ export default function Home() {
             </span>
           </div>
           <p className="mt-3 text-sm font-semibold text-stone-600">
-            Seroja Knowledge Hub &copy; 2026 — Dikelola Bersama KWT Kebun Seroja
+            Seroja Knowledge Hub &copy; 2026 - Dikelola Bersama KWT Kebun Seroja
           </p>
           <p className="mt-1.5 text-xs font-medium text-stone-500">
             Dibuat oleh <span className="font-semibold text-emerald-800">Danendra Farrel Adriansyah</span>
