@@ -5,12 +5,11 @@ function isRemote(src: ImageProps['src']) {
 }
 
 export function SmartImage({ src, alt, unoptimized, ...rest }: ImageProps) {
-  const remote = isRemote(src);
   return (
     <Image
       src={src}
       alt={alt}
-      unoptimized={unoptimized ?? remote}
+      unoptimized={unoptimized}
       {...rest}
     />
   );

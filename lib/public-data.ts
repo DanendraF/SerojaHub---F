@@ -48,8 +48,7 @@ export async function fetchPlantById(id: string): Promise<Plant | null> {
   if (data && typeof data === 'object' && 'id' in data && data.id) {
     return data;
   }
-  const list = await fetchPlantList();
-  return list.find((p) => p.id === id) ?? null;
+  return null;
 }
 
 export async function fetchSpeciesList(): Promise<PlantSpecies[]> {
@@ -64,8 +63,7 @@ export async function fetchSpeciesById(id: string): Promise<PlantSpecies | null>
   if (data && typeof data === 'object' && 'id' in data && data.id) {
     return data;
   }
-  const list = await fetchSpeciesList();
-  return list.find((s) => s.id === id) ?? null;
+  return null;
 }
 
 export function plantsForSpecies(plants: Plant[], species: PlantSpecies): Plant[] {
