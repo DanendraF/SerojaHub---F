@@ -8,11 +8,19 @@ import { PlantForm } from '@/components/plant-form';
 import { Button } from '@/components/ui/button';
 
 export default function EditTanamanPage() {
-  const { getPlant } = usePlants();
+  const { getPlant, isLoading } = usePlants();
   const params = useParams<{ id: string }>();
   const router = useRouter();
 
   const plant = getPlant(params.id);
+
+  if (isLoading) {
+    return (
+      <AdminShell>
+        <div className="py-20 text-center text-muted-foreground">Memuat tanaman…</div>
+      </AdminShell>
+    );
+  }
 
   if (!plant) {
     return (

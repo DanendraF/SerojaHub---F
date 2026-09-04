@@ -10,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { SmartImage } from '@/components/smart-image';
 import {
   Dialog,
   DialogContent,
@@ -113,10 +114,12 @@ export function SiteHeader() {
             className="group flex items-center gap-2.5 transition-opacity hover:opacity-90"
             onClick={() => setMobileMenuOpen(false)}
           >
-            <img 
-              src="/Logo.png" 
-              alt="Kebun Seroja" 
-              className="h-9 w-9 object-contain shrink-0 transition-transform group-hover:scale-105" 
+            <SmartImage
+              src="/Logo.png"
+              alt="Kebun Seroja"
+              width={36}
+              height={36}
+              className="h-9 w-9 object-contain shrink-0 transition-transform group-hover:scale-105"
             />
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
@@ -320,7 +323,7 @@ export function SiteHeader() {
       <Dialog open={loginModalOpen} onOpenChange={setLoginModalOpen}>
         <DialogContent className="sm:max-w-md rounded-2xl p-6">
           <DialogHeader className="flex flex-col items-center text-center">
-            <img src="/Logo.png" alt="Kebun Seroja Logo" className="h-12 w-12 object-contain mb-2" />
+            <SmartImage src="/Logo.png" alt="Kebun Seroja Logo" width={48} height={48} className="h-12 w-12 object-contain mb-2" />
             <DialogTitle className="text-xl font-bold text-stone-900">Masuk Panel Pengelola</DialogTitle>
             <DialogDescription className="text-sm text-stone-500 mt-1">
               Masukkan nama pengguna dan kata sandi Anda.

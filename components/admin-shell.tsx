@@ -15,6 +15,7 @@ import { useAuth } from '@/lib/auth-context';
 import { usePlants } from '@/lib/plant-context';
 import { hariMenujuPanen } from '@/lib/format';
 import { cn } from '@/lib/utils';
+import { SmartImage } from '@/components/smart-image';
 
 const navItems = [
   { href: '/beranda',       label: 'Beranda',        icon: LayoutGrid, desc: 'Ringkasan kebun' },
@@ -47,7 +48,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
         {/* Logo */}
         <div className="flex items-center gap-3 px-5 py-5">
           <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-emerald-600 shadow-sm">
-            <img src="/Logo.png" alt="Seroja" className="h-7 w-7 object-contain" />
+            <SmartImage src="/Logo.png" alt="Seroja" width={28} height={28} className="h-7 w-7 object-contain" />
           </div>
           <div>
             <p className="text-sm font-bold leading-tight text-stone-900">Kebun Seroja</p>
@@ -147,7 +148,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
         <div className="flex items-center justify-between px-4 py-3">
           <Link href="/" className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-600">
-              <img src="/Logo.png" alt="Seroja" className="h-6 w-6 object-contain" />
+              <SmartImage src="/Logo.png" alt="Seroja" width={24} height={24} className="h-6 w-6 object-contain" />
             </div>
             <span className="text-sm font-bold text-stone-900">Panel Pengelola</span>
           </Link>

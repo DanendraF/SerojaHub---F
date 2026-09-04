@@ -11,12 +11,22 @@ import {
   Sprout,
   TrendingUp,
 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { AdminShell } from '@/components/admin-shell';
-import { GardenCalendar } from '@/components/garden-calendar';
 import { usePlants } from '@/lib/plant-context';
 import { Button } from '@/components/ui/button';
 import { formatTanggal, hariMenujuPanen } from '@/lib/format';
 import type { Plant } from '@/lib/types';
+
+const GardenCalendar = dynamic(
+  () => import('@/components/garden-calendar').then((m) => m.GardenCalendar),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-72 animate-pulse rounded-2xl bg-white ring-1 ring-stone-100" />
+    ),
+  },
+);
 
 function getPlantStatus(p: Plant): { status: 'harvest' | 'growing' | 'overdue'; days: number } {
   const days = hariMenujuPanen(p.estimated_harvest_date);

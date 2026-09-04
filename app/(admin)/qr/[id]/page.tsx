@@ -26,7 +26,7 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
 export default function QRPage() {
-  const { getPlant } = usePlants();
+  const { getPlant, isLoading } = usePlants();
   const params = useParams<{ id: string }>();
   const router = useRouter();
   const { toast } = useToast();
@@ -42,6 +42,14 @@ export default function QRPage() {
   }, []);
 
   const plant = getPlant(params.id);
+
+  if (isLoading) {
+    return (
+      <AdminShell>
+        <div className="py-20 text-center text-muted-foreground">Memuat label QR…</div>
+      </AdminShell>
+    );
+  }
 
   if (!plant) {
     return (
