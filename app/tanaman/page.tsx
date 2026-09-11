@@ -1,4 +1,5 @@
-﻿import Link from 'next/link';
+import type { Metadata } from 'next';
+import Link from 'next/link';
 import { SiteHeader } from '@/components/site-header';
 import { SpeciesPlantData } from '@/components/species-plant-data';
 import { TanamanCatalog } from '@/components/tanaman-catalog';
@@ -11,6 +12,30 @@ import {
 } from '@/lib/public-data';
 
 export const revalidate = PUBLIC_REVALIDATE_SECONDS;
+
+export const metadata: Metadata = {
+  title: 'Katalog Tanaman Kebun Seroja',
+  description:
+    'Lihat daftar lengkap tanaman yang dibudidayakan di Kebun Seroja. Temukan informasi jenis tanaman, manfaat, cara tanam, dan jadwal panen sayuran dan buah organik.',
+  keywords: [
+    'katalog tanaman Seroja',
+    'daftar tanaman kebun Seroja',
+    'tanaman organik Seroja',
+    'sayuran kebun Seroja',
+    'buah-buahan Seroja',
+    'info tanaman',
+  ],
+  alternates: {
+    canonical: 'https://seroja-hub-f.vercel.app/tanaman',
+  },
+  openGraph: {
+    title: 'Katalog Tanaman - Kebun Seroja',
+    description:
+      'Daftar lengkap tanaman di Kebun Seroja: sayuran, buah-buahan, cara tanam, dan jadwal panen.',
+    url: 'https://seroja-hub-f.vercel.app/tanaman',
+    images: [{ url: 'https://seroja-hub-f.vercel.app/images/depan.jpeg', width: 1200, height: 630 }],
+  },
+};
 
 export default async function TanamanListPage({
   searchParams,

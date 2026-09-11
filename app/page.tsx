@@ -1,32 +1,67 @@
-﻿import Link from 'next/link';
-import { ArrowRight, Leaf, MapPin, QrCode, Sprout } from 'lucide-react';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { ArrowRight, BookOpen, Database, MapPin, QrCode } from 'lucide-react';
 import { SiteHeader } from '@/components/site-header';
 import { HomeGallery } from '@/components/home-gallery';
 import { SmartImage } from '@/components/smart-image';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 
+export const metadata: Metadata = {
+  title: 'Beranda - Seroja Knowledge Hub',
+  description:
+    'Selamat datang di Seroja Knowledge Hub, sistem informasi digital Kebun Seroja. Temukan informasi lengkap tanaman, cara tanam, manfaat, dan jadwal panen dengan teknologi QR Code.',
+  alternates: {
+    canonical: 'https://seroja-hub-f.vercel.app',
+  },
+  openGraph: {
+    title: 'Seroja Knowledge Hub - Informasi Tanaman Kebun Seroja',
+    description:
+      'Sistem informasi digital Kebun Seroja. Scan QR Code untuk mengetahui jenis, manfaat, dan cara tanam setiap tanaman.',
+    url: 'https://seroja-hub-f.vercel.app',
+    images: [{ url: 'https://seroja-hub-f.vercel.app/images/depan.jpeg', width: 1200, height: 630 }],
+  },
+};
+
 const features = [
   {
+    icon: Database,
+    title: 'Data Tanaman',
+    desc: 'Daftar dan informasi lengkap tanaman yang ada di Kebun Seroja.',
+  },
+  {
+    icon: BookOpen,
+    title: 'Informasi & Edukasi',
+    desc: 'Kenali jenis, manfaat, serta cara merawat berbagai tanaman.',
+  },
+  {
     icon: QrCode,
-    title: 'Scan QR Code',
-    desc: 'Setiap tanaman punya QR code. Scan dengan HP untuk lihat info lengkap tanaman.',
-  },
-  {
-    icon: Leaf,
-    title: 'Info Lengkap',
-    desc: 'Lihat foto, jenis, tanggal tanam, perkiraan panen, dan manfaat setiap tanaman.',
-  },
-  {
-    icon: Sprout,
-    title: 'Kelola Mudah',
-    desc: 'Pengelola kebun bisa tambah, ubah, dan cetak QR code tanaman dengan mudah.',
+    title: 'Kelola dengan Mudah',
+    desc: 'Pengelola dapat memperbarui data dan mencetak QR Code tanaman.',
   },
 ];
 
 export default function Home() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: 'Kebun Seroja',
+    alternateName: 'Seroja Knowledge Hub',
+    description:
+      'Kebun komunitas yang dikelola oleh KWT Seroja. Sistem informasi digital tanaman dilengkapi QR Code untuk edukasi warga.',
+    url: 'https://seroja-hub-f.vercel.app',
+    logo: 'https://seroja-hub-f.vercel.app/Logo.png',
+    image: 'https://seroja-hub-f.vercel.app/images/depan.jpeg',
+    sameAs: [],
+    hasMap: '',
+  };
+
   return (
     <div className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <SiteHeader />
 
       <section className="relative overflow-hidden min-h-screen w-full flex items-center justify-center pt-24 pb-16">
@@ -90,16 +125,13 @@ export default function Home() {
 
       <section className="bg-[#faf8f5] py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto">
             <span className="inline-block rounded-full bg-emerald-100 px-3.5 py-1 text-xs font-bold text-emerald-800">
-              Penggunaan Praktis
+              Sistem Informasi
             </span>
             <h2 className="mt-3 text-3xl font-extrabold text-stone-900 sm:text-4xl">
-              Cara Kerja Sistem
+              Semua Informasi Kebun dalam Satu Tempat
             </h2>
-            <p className="mt-3 text-base sm:text-lg text-stone-600 font-medium">
-              Tiga langkah sederhana untuk mengenal tanaman di Kebun Seroja
-            </p>
           </div>
 
           <div className="mt-12 grid gap-8 sm:grid-cols-3">
