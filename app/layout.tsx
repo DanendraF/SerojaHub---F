@@ -19,6 +19,9 @@ export const metadata: Metadata = {
     default: 'Seroja Knowledge Hub - Informasi Tanaman Kebun Seroja',
     template: '%s | Seroja Knowledge Hub',
   },
+  verification: {
+    google: 'google39c0e85a131b48fe',
+  },
   description:
     'Seroja Knowledge Hub adalah sistem informasi digital tanaman Kebun Seroja. Scan QR Code untuk melihat jenis tanaman, cara tanam, manfaat, dan jadwal panen. Dikelola oleh KWT Kebun Seroja.',
   keywords: [
